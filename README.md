@@ -1,2 +1,2 @@
-# GLSL-Sublime-Syntax
-GLSL Syntax Highlighting for Sublime Text. 
+# GLSL Sublime Text Syntax
+OpenGL GLSL shader script syntax highlighting for Sublime Text. 
