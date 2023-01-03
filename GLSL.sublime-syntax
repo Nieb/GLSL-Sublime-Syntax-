@@ -361,20 +361,56 @@ contexts:
 
         #####################################################################################
         #  Operators:
-        - match: '[(\-)(\+)(\*)(\/)(\^)(\%)]'
-          scope: keyword.operator.arithmetic.glsl
-
-        - match: '[(\<\<)(\>\>)(\&\&)(\|\|)(\~)(\!)]'
+        - match: |-
+            (?x:
+            | \<\<
+            | \>\>
+            | \&\&
+            | \|\|
+            | \~
+            | \!
+            )
           scope: keyword.operator.bitwise.glsl
 
-        - match: '[(\<)(\>)(\<\=)(\>\=)(\=\=)(\!\=)]'
+        - match: |-
+            (?x:
+            | \-\=
+            | \+\=
+            | \*\=
+            | \/\=
+            | \%\=
+            | \&\=
+            | \|\=
+            | \^\=
+            | \>\>\=
+            | \<\<\=
+            )
+          scope: keyword.operator.assignment.augmented.glsl
+
+        - match: |-
+            (?x:
+            | \<\=
+            | \>\=
+            | \<
+            | \>
+            | \!\=
+            | \=\=
+            )
           scope: keyword.operator.comparison.glsl
+
+        - match: |-
+            (?x:
+            | \-
+            | \+
+            | \*
+            | \/
+            | \^
+            | \%
+            )
+          scope: keyword.operator.arithmetic.glsl
 
         - match: (\=)
           scope: keyword.operator.assignment.glsl
-
-        - match: '[(\-\=)(\+\=)(\*\=)(\/\=)(\%\=)(\&\=)(\|\=)(\^\=)(\>\>\=)(\<\<\=)]'
-          scope: keyword.operator.assignment.augmented.glsl
 
 
         #####################################################################################
