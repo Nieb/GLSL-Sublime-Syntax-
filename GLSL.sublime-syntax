@@ -327,17 +327,18 @@ contexts:
 
         #####################################################################################
         #####################################################################################
-        #  Braces{}:
+        #  {Braces}:
         - match: \{|\}
-          scope: constant.numeric.glsl
+          scope: punctuation.section.braces.glsl
 
-        #  Parentheses():
-        - match: \(|\)
-          scope: constant.numeric.glsl
-
-        #  Brackets[]:
+        #  [Brackets]:
         - match: \[|\]
-          scope: constant.numeric.glsl
+          scope: punctuation.section.brackets.glsl
+
+        #  (Parentheses):
+        - match: \(|\)
+          scope: punctuation.section.parens.glsl
+
 
 
         #####################################################################################
