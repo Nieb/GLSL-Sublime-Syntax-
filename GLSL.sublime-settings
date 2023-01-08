@@ -1,0 +1,3 @@
+{
+    "extensions": [ "glsl", "vs", "fs", "ps", "gs", "vsh", "fsh", "gsh", "vshader", "fshader", "gshader", "vert", "frag", "geom" ],
+}
