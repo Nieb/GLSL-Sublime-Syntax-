@@ -51,7 +51,7 @@ contexts:
         #####################################################################################
         #  CompileTime Execution:
         - match: |-
-            (?i)\#(?x:
+            \#(?x:
               define
             | elif
             | else
@@ -76,7 +76,7 @@ contexts:
         #####################################################################################
         #  ProgramFlow:
         - match: |-
-            (?i)\b(?x:
+            \b(?x:
               break
             | case
             | continue
@@ -97,7 +97,7 @@ contexts:
         #####################################################################################
         #  Build-in Functions:
         - match: |-
-            (?i)\b(?x:
+            \b(?x:
               main
             | abs
             | acos
@@ -194,7 +194,7 @@ contexts:
 
         #  Constructor Functions:
         - match: |-
-            (?i)\b(?x:
+            \b(?x:
               mat[2-4]
             | vec[2-4]
             )(?=\()
@@ -205,7 +205,7 @@ contexts:
         #####################################################################################
         #  Variable Declaration:
         - match: |-
-            (?i)\b(?x:
+            \b(?x:
             | void
             | bool
             | int
@@ -298,7 +298,7 @@ contexts:
 
         #  Variable Declaration Modifiers:
         - match: |-
-            (?i)\b(?x:
+            \b(?x:
               layout
             | attribute
             | centroid
@@ -431,7 +431,7 @@ contexts:
         #####################################################################################
         # Built-In Variables:
         - match: |-
-            (?i)\b(?x:
+            \b(?x:
               gl_BackColor
             | gl_BackLightModelProduct
             | gl_BackLightProduct
@@ -512,7 +512,7 @@ contexts:
         #####################################################################################
         # Built-in Constants:
         - match: |-
-            (?i)\b(?x:
+            \b(?x:
               gl_MaxClipPlanes
             | gl_MaxCombinedTextureImageUnits
             | gl_MaxDrawBuffers
