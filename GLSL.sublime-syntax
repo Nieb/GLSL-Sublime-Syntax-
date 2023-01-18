@@ -31,8 +31,14 @@ contexts:
         - include: BuiltIn_Functions_Constructors
         - include: VariableDeclaration
         - include: VariableDeclaration_Modifiers
-        - include: Sections
-        - include: Numbers
+        - include: Section_Braces
+        - include: Section_Brackets
+        - include: Section_Parentheses
+        - include: Section_Strays
+        - include: Numbers_Float
+        #- include: Numbers_Bin
+        - include: Numbers_Hex
+        - include: Numbers_Integer
         - include: Operators
         - include: StructAccessor
         - include: ParameterSeparator
@@ -66,6 +72,14 @@ contexts:
           scope: comment.block.glsl
           push:
             - meta_scope: comment.block.glsl
+
+            - match: (?=(\#elif 0))
+              push:
+                - include: CompileTimeExecution
+                - include: Numbers_Integer
+                - match: (\n)
+                  pop: true
+
             - match: (?=(\#elif 1)|(\#else)|(\#endif))
               pop: true
 
@@ -118,37 +132,100 @@ contexts:
 
     ###########################################################################################################################################
     ###########################################################################################################################################
-    Sections:
-        #  {Braces}:
-        - match: \{|\}
-          scope: punctuation.section.braces.glsl
+    Section_Braces:
+        - match: \{
+          scope: punctuation.section.braces.begin.glsl
+          push:
+            - meta_scope: meta.braces.glsl
+            - match: \}
+              scope: punctuation.section.braces.end.glsl
+              pop: true
+            - include: main
 
-        #  [Brackets]:
-        - match: \[|\]
-          scope: punctuation.section.brackets.glsl
+    #======================================================================================================================================
+    Section_Brackets:
+        - match: \[
+          scope: punctuation.section.brackets.begin.glsl
+          push:
+            - meta_scope: meta.brackets.glsl
+            - match: \]
+              scope: punctuation.section.brackets.end.glsl
+              pop: true
+            - include: main
 
-        #  (Parentheses):
-        - match: \(|\)
-          scope: punctuation.section.parens.glsl
+    #======================================================================================================================================
+    Section_Parentheses:
+        - match: \(
+          scope: punctuation.section.parens.begin.glsl
+          push:
+            - meta_scope: meta.parens.glsl
+            - match: \)
+              scope: punctuation.section.parens.end.glsl
+              pop: true
+            - include: main
+
+    #======================================================================================================================================
+    Section_Strays:
+        - match: \}\]|\)
+          scope: invalid.illegal.stray.cfg
 
 
     ###########################################################################################################################################
     ###########################################################################################################################################
-    Numbers:
-        #  Bin:
-        #- match: (\(0b){1}[01]+)\b
-        #  scope: constant.numeric.integer.binary.glsl
-
-        #  Hex:
-        - match: \b((0x){1}[0-9a-fA-F]+)\b
-          scope: constant.numeric.integer.hexadecimal.glsl
-
-        #  Float:
-        - match: ((((?<![a-zA-Z\d])\d*)|((?<![a-zA-Z\d])-\d*))(((?<![a-zA-Z\d])-\d{1}\.{1})|((?<![\d])-\.{1}\d{1})|(\d{1}\.{1})|(\.{1}\d{1})){1}\d*)
+    Numbers_Float:
+        - match: |-
+            (?x)
+            (
+                (
+                    ((?<![a-zA-Z\d])\d*)
+                |
+                    ((?<![a-zA-Z\d])-\d*)
+                )
+                (
+                    ((?<![a-zA-Z\d])-\d{1}\.{1})
+                |
+                    ((?<![\d])-\.{1}\d{1})
+                |
+                    (\d{1}\.{1})
+                |
+                    (\.{1}\d{1})
+                ){1}
+                \d*
+            )
           scope: constant.numeric.float.glsl
 
-        #  Integer:
-        - match: ((\b((?![a-zA-Z])\d*)\b)|((?<![a-zA-Z\d])-\d{1}\d*))
+
+    #======================================================================================================================================
+    Numbers_Bin:
+        - match: |-
+            (?x)
+            \b(
+                (0b){1}
+                [01]+
+            )\b
+          scope: constant.numeric.integer.binary.glsl
+
+
+    #======================================================================================================================================
+    Numbers_Hex:
+        - match: |-
+            (?x)
+            \b(
+                (0x){1}
+                [0-9a-fA-F]+
+            )\b
+          scope: constant.numeric.integer.hexadecimal.glsl
+
+
+    #======================================================================================================================================
+    Numbers_Integer:
+        - match: |-
+            (?x)
+            (
+                (\b((?![a-zA-Z])\d*)\b)
+            |
+                ((?<![a-zA-Z\d])-\d{1}\d*)
+            )
           scope: constant.numeric.integer.glsl
 
 
@@ -225,11 +302,19 @@ contexts:
     ###########################################################################################################################################
     ###########################################################################################################################################
     User_Variables:
-        - match: ([A-Za-z][A-Za-z0-9_]*)
+        - match: |-
+            (?x)
+            (
+                [A-Za-z_{1}]{1}
+                [A-Za-z_{1}0-9]*
+            )
           scope: variable.other.readwrite.glsl
 
     User_Functions:
-        - match: ([_a-zA-Z0-9]+)(?=\()
+        - match: |-
+            (?x)
+            ( [_a-zA-Z0-9]+ )
+            (?=\()
           scope: entity.name.function.glsl
 
 
