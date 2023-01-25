@@ -270,6 +270,7 @@ contexts:
             )
           scope: keyword.operator.bitwise.glsl
 
+    #======================================================================================================================================
         - match: |-
             (?x:
             | \-\=
@@ -285,6 +286,7 @@ contexts:
             )
           scope: keyword.operator.assignment.augmented.glsl
 
+    #======================================================================================================================================
         - match: |-
             (?x:
             | \<\=
@@ -296,6 +298,7 @@ contexts:
             )
           scope: keyword.operator.comparison.glsl
 
+    #======================================================================================================================================
         - match: |-
             (?x:
             | \-
@@ -307,6 +310,7 @@ contexts:
             )
           scope: keyword.operator.arithmetic.glsl
 
+    #======================================================================================================================================
         - match: (\=)
           scope: keyword.operator.assignment.glsl
 
@@ -314,15 +318,15 @@ contexts:
     ###########################################################################################################################################
     ###########################################################################################################################################
     Punctuation_StructAccessor:
-        - match: (\.)
+        - match: \.
           scope: punctuation.accessor.glsl
 
     Punctuation_ParameterSeparator:
-        - match: (\,)
+        - match: \,
           scope: punctuation.separator.glsl
 
     Punctuation_StatementTerminator:
-        - match: (\;)
+        - match: \;
           scope: punctuation.terminator.glsl
 
 
@@ -340,7 +344,7 @@ contexts:
     Functions_User:
         - match: |-
             (?x)
-            ( [_a-zA-Z0-9]+ )
+            ( [a-zA-Z_0-9]+ )
             (?=\()
           scope: entity.name.function.glsl
 
@@ -447,9 +451,9 @@ contexts:
             \b(?x:
               layout
             | attribute
+            | buffer
             | centroid
-            | sampler
-            | patch
+            | coherent
             | const
             | flat
             | in
@@ -457,16 +461,16 @@ contexts:
             | invariant
             | noperspective
             | out
+            | patch
+            | readonly
+            | restrict
+            | sampler
+            | shared
             | smooth
             | uniform
             | varying
-            | buffer
-            | shared
-            | coherent
-            | readonly
-            | writeonly
             | volatile
-            | restrict
+            | writeonly
             )\b
           scope: storage.modifier.glsl
 
