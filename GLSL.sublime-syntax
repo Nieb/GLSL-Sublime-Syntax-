@@ -24,29 +24,42 @@ contexts:
     ###########################################################################################################################################
     ###########################################################################################################################################
     main:
+        # Order of includes is important.
         - include: Comments
+
         - include: CompileTimeExecution
+
         - include: ProgramFlow
-        - include: BuiltIn_Functions
-        - include: BuiltIn_Functions_Constructors
-        - include: VariableDeclaration
-        - include: VariableDeclaration_Modifiers
+
+        - include: Functions_BuiltIn
+        - include: Functions_BuiltIn_Constructors
+
+        - include: Declaration_Variable
+        - include: Declaration_Variable_Modifiers
+
         - include: Section_Braces
         - include: Section_Brackets
         - include: Section_Parentheses
         - include: Section_Strays
+
         - include: Numbers_Float
         #- include: Numbers_Bin
         - include: Numbers_Hex
         - include: Numbers_Integer
+
         - include: Operators
-        - include: StructAccessor
-        - include: ParameterSeparator
-        - include: StatementTerminator
-        - include: User_Functions
-        - include: BuiltIn_Variables
-        - include: BuiltIn_Constants
-        - include: User_Variables
+
+        - include: Punctuation_StructAccessor
+        - include: Punctuation_ParameterSeparator
+        - include: Punctuation_StatementTerminator
+
+        - include: Functions_User
+
+        - include: Variables_BuiltIn
+
+        - include: Constants_BuiltIn
+
+        - include: Variables_User
 
 
     ###########################################################################################################################################
@@ -88,7 +101,8 @@ contexts:
     ###########################################################################################################################################
     CompileTimeExecution:
         - match: |-
-            \#(?x:
+            (?x)
+            \#(
               define
             | elif
             | else
@@ -113,7 +127,8 @@ contexts:
     ###########################################################################################################################################
     ProgramFlow:
         - match: |-
-            \b(?x:
+            (?x)
+            \b(
               break
             | case
             | continue
@@ -137,9 +152,11 @@ contexts:
           scope: punctuation.section.braces.begin.glsl
           push:
             - meta_scope: meta.braces.glsl
+
             - match: \}
               scope: punctuation.section.braces.end.glsl
               pop: true
+
             - include: main
 
     #======================================================================================================================================
@@ -148,9 +165,11 @@ contexts:
           scope: punctuation.section.brackets.begin.glsl
           push:
             - meta_scope: meta.brackets.glsl
+
             - match: \]
               scope: punctuation.section.brackets.end.glsl
               pop: true
+
             - include: main
 
     #======================================================================================================================================
@@ -159,14 +178,22 @@ contexts:
           scope: punctuation.section.parens.begin.glsl
           push:
             - meta_scope: meta.parens.glsl
+
             - match: \)
               scope: punctuation.section.parens.end.glsl
               pop: true
+
             - include: main
 
     #======================================================================================================================================
     Section_Strays:
-        - match: \}\]|\)
+        - match: |-
+            (?x)
+            (
+              \}
+            | \]
+            | \)
+            )
           scope: invalid.illegal.stray.cfg
 
 
@@ -286,22 +313,22 @@ contexts:
 
     ###########################################################################################################################################
     ###########################################################################################################################################
-    StructAccessor:
+    Punctuation_StructAccessor:
         - match: (\.)
           scope: punctuation.accessor.glsl
 
-    ParameterSeparator:
+    Punctuation_ParameterSeparator:
         - match: (\,)
           scope: punctuation.separator.glsl
 
-    StatementTerminator:
+    Punctuation_StatementTerminator:
         - match: (\;)
           scope: punctuation.terminator.glsl
 
 
     ###########################################################################################################################################
     ###########################################################################################################################################
-    User_Variables:
+    Variables_User:
         - match: |-
             (?x)
             (
@@ -310,7 +337,7 @@ contexts:
             )
           scope: variable.other.readwrite.glsl
 
-    User_Functions:
+    Functions_User:
         - match: |-
             (?x)
             ( [_a-zA-Z0-9]+ )
@@ -320,7 +347,7 @@ contexts:
 
     ###########################################################################################################################################
     ###########################################################################################################################################
-    VariableDeclaration:
+    Declaration_Variable:
         - match: |-
             \b(?x:
             | void
@@ -415,7 +442,7 @@ contexts:
 
 
     #======================================================================================================================================
-    VariableDeclaration_Modifiers:
+    Declaration_Variable_Modifiers:
         - match: |-
             \b(?x:
               layout
@@ -452,7 +479,7 @@ contexts:
     ###########################################################################################################################################
     ###########################################################################################################################################
     ###########################################################################################################################################
-    BuiltIn_Functions:
+    Functions_BuiltIn:
         - match: |-
             \b(?x:
               main
@@ -551,7 +578,7 @@ contexts:
 
 
     #======================================================================================================================================
-    BuiltIn_Functions_Constructors:
+    Functions_BuiltIn_Constructors:
         - match: |-
             \b(?x:
               mat[2-4]
@@ -562,7 +589,7 @@ contexts:
 
     ###########################################################################################################################################
     ###########################################################################################################################################
-    BuiltIn_Constants:
+    Constants_BuiltIn:
         - match: |-
             \b(?x:
               gl_MaxClipPlanes
@@ -583,7 +610,7 @@ contexts:
 
     ###########################################################################################################################################
     ###########################################################################################################################################
-    BuiltIn_Variables:
+    Variables_BuiltIn:
         - match: |-
             \b(?x:
               gl_BackColor
