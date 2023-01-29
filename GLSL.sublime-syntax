@@ -49,9 +49,7 @@ contexts:
 
         - include: Operators
 
-        - include: Punctuation_StructAccessor
-        - include: Punctuation_ParameterSeparator
-        - include: Punctuation_StatementTerminator
+        - include: Punctuation
 
         - include: Functions_User
 
@@ -295,6 +293,7 @@ contexts:
             | \>
             | \!\=
             | \=\=
+            | \?
             )
           scope: keyword.operator.comparison.glsl
 
@@ -317,15 +316,13 @@ contexts:
 
     ###########################################################################################################################################
     ###########################################################################################################################################
-    Punctuation_StructAccessor:
+    Punctuation:
         - match: \.
           scope: punctuation.accessor.glsl
 
-    Punctuation_ParameterSeparator:
-        - match: \,
+        - match: (\,|\:)
           scope: punctuation.separator.glsl
 
-    Punctuation_StatementTerminator:
         - match: \;
           scope: punctuation.terminator.glsl
 
