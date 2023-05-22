@@ -29,7 +29,8 @@ contexts:
 
         - include: CompileTimeExecution
 
-        - include: ProgramFlow
+        - include: Keywords
+        - include: Lobster
 
         - include: Functions_BuiltIn
         - include: Functions_BuiltIn_Constructors
@@ -56,6 +57,7 @@ contexts:
         - include: Variables_BuiltIn
 
         - include: Constants_BuiltIn
+
 
         - include: Variables_User
 
@@ -123,7 +125,7 @@ contexts:
 
     ###########################################################################################################################################
     ###########################################################################################################################################
-    ProgramFlow:
+    Keywords:
         - match: |-
             (?x)
             \b(
@@ -142,6 +144,23 @@ contexts:
             )\b
           scope: keyword.control.glsl
 
+    #======================================================================================================================================
+    Lobster:
+        - match: |-
+            (?x)
+            \b(
+              COMPUTE
+            | INCLUDE
+            | INPUTS
+            | LAYOUT
+            | PIXEL
+            | PIXELFUNCTIONS
+            | SHADER
+            | UNIFORM
+            | UNIFORMS
+            | VERTEX
+            )\b
+          scope: keyword.control.glsl
 
     ###########################################################################################################################################
     ###########################################################################################################################################
@@ -351,6 +370,7 @@ contexts:
     Declaration_Variable:
         - match: |-
             \b(?x:
+              struct
             | void
             | bool
             | int
@@ -446,8 +466,7 @@ contexts:
     Declaration_Variable_Modifiers:
         - match: |-
             \b(?x:
-              layout
-            | attribute
+              attribute
             | buffer
             | centroid
             | coherent
@@ -456,6 +475,7 @@ contexts:
             | in
             | inout
             | invariant
+            | layout
             | noperspective
             | out
             | patch
