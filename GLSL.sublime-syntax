@@ -30,13 +30,13 @@ contexts:
         - include: CompileTimeExecution
 
         - include: Keywords
-        - include: Lobster
+        - include: LobsterLang
 
         - include: Functions_BuiltIn
-        - include: Functions_BuiltIn_Constructors
+        - include: Functions_BuiltInConstructors
 
         - include: Declaration_Variable
-        - include: Declaration_Variable_Modifiers
+        - include: Declaration_VariableModifiers
 
         - include: Section_Braces
         - include: Section_Brackets
@@ -44,7 +44,7 @@ contexts:
         - include: Section_Strays
 
         - include: Numbers_Float
-        #- include: Numbers_Bin
+       #- include: Numbers_Bin
         - include: Numbers_Hex
         - include: Numbers_Integer
 
@@ -74,6 +74,7 @@ contexts:
             - match: (\n)
               pop: true
 
+    #======================================================================================================================================
         - match: (\/\*)
           scope: comment.block.glsl
           push:
@@ -81,8 +82,8 @@ contexts:
             - match: (\*\/)
               pop: true
 
+    #======================================================================================================================================
         - match: (?<=(\#if 0)|(\#elif 0))
-          scope: comment.block.glsl
           push:
             - meta_scope: comment.block.glsl
 
@@ -95,6 +96,22 @@ contexts:
 
             - match: (?=(\#elif 1)|(\#else)|(\#endif))
               pop: true
+
+        - match: (?<=(\#if 1)|(\#elif 1))
+          push:
+            - meta_scope: source.glsl
+
+            - match: (\#else)
+              scope: keyword.source.glsl
+              push:
+                - meta_scope: comment.block.glsl
+                - match: (?=(\#endif))
+                  pop: true
+
+            - match: (?=(\#elif 0)|(\#endif))
+              pop: true
+
+            - include: main
 
 
     ###########################################################################################################################################
@@ -145,7 +162,7 @@ contexts:
           scope: keyword.control.glsl
 
     #======================================================================================================================================
-    Lobster:
+    LobsterLang:
         - match: |-
             (?x)
             \b(
@@ -161,6 +178,16 @@ contexts:
             | VERTEX
             )\b
           scope: keyword.control.glsl
+
+        - match: (?<=INCLUDE)
+          scope: punctuation.definition.string.begin.glsl
+          push:
+            - meta_scope: string.quoted.double.glsl
+
+            - match: \n
+              scope: punctuation.definition.string.end.glsl
+              pop: true
+
 
     ###########################################################################################################################################
     ###########################################################################################################################################
@@ -278,7 +305,7 @@ contexts:
     Operators:
         - match: |-
             (?x:
-            | \<\<
+              \<\<
             | \>\>
             | \&\&
             | \|\|
@@ -290,7 +317,7 @@ contexts:
     #======================================================================================================================================
         - match: |-
             (?x:
-            | \-\=
+              \-\=
             | \+\=
             | \*\=
             | \/\=
@@ -306,7 +333,7 @@ contexts:
     #======================================================================================================================================
         - match: |-
             (?x:
-            | \<\=
+              \<\=
             | \>\=
             | \<
             | \>
@@ -319,7 +346,7 @@ contexts:
     #======================================================================================================================================
         - match: |-
             (?x:
-            | \-
+              \-
             | \+
             | \*
             | \/
@@ -352,8 +379,8 @@ contexts:
         - match: |-
             (?x)
             (
-                [A-Za-z_{1}]{1}
-                [A-Za-z_{1}0-9]*
+                [A-Za-z_]{1}
+                [A-Za-z_0-9]*
             )
           scope: variable.other.readwrite.glsl
 
@@ -463,7 +490,7 @@ contexts:
 
 
     #======================================================================================================================================
-    Declaration_Variable_Modifiers:
+    Declaration_VariableModifiers:
         - match: |-
             \b(?x:
               attribute
@@ -599,7 +626,7 @@ contexts:
 
 
     #======================================================================================================================================
-    Functions_BuiltIn_Constructors:
+    Functions_BuiltInConstructors:
         - match: |-
             \b(?x:
               mat[2-4]
